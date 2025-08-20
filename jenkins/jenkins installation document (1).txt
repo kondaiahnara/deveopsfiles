@@ -1,0 +1,44 @@
+https://www.linuxtechi.com/how-to-install-jenkins-on-ubuntu/
+
+INSTALLATION FOR JENKINS
+
+Prerequisites
+Pre-Install Ubuntu 24.04
+Non-root user with sudo privileges
+At least 2GB RAM or more
+25 GB disk space
+Internet Connectivity
+
+1) Install Java
+sudo apt update -y
+sudo apt install fontconfig openjdk-17-jre -y
+java --version
+ 
+2) Add Jenkins APT Repository
+sudo wget -O /usr/share/keyrings/jenkins-keyring.asc \
+https://pkg.jenkins.io/debian-stable/jenkins.io-2023.key
+
+echo "deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]" \
+https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+/etc/apt/sources.list.d/jenkins.list > /dev/null
+
+sudo apt update -y
+
+sudo apt install jenkins -y
+
+systemctl status jenkinsTo view the password, use the cat command as shown:
+
+sudo systemctl start jenkins
+
+sudo systemctl status jenkins
+
+sudo ufw allow 8080
+   
+http://<public_IP>:8080
+
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
+
+
+ 
+ 
+ 

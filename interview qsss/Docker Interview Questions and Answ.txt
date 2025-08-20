@@ -1,0 +1,260 @@
+Docker Interview Questions and Answers
+
+## 1. *Basics of Docker*
+
+*Q1. What is Docker?*
+
+* Docker is a containerization platform that allows developers to package applications with all dependencies into containers.
+* Containers are lightweight, portable, and ensure consistency across environments.
+
+---
+
+*Q2. Difference between Virtual Machine (VM) and Docker Container?*
+
+| Feature        | VM                           | Docker Container        |
+| -------------- | ---------------------------- | ----------------------- |
+| OS requirement | Each VM has its own OS       | Shares host OS kernel   |
+| Size           | Heavy (GBs)                  | Lightweight (MBs)       |
+| Boot time      | Minutes                      | Seconds                 |
+| Performance    | Slower (hypervisor overhead) | Faster                  |
+| Isolation      | Stronger (full OS)           | Process-level isolation |
+
+---
+
+*Q3. What is a Docker Image?*
+
+* A Docker image is a read-only template with instructions to create a container.
+* It includes application code, libraries, dependencies, and configuration.
+
+---
+
+*Q4. What is a Docker Container?*
+
+* A container is a running instance of a Docker image.
+* Containers are isolated processes that share the host OS kernel.
+
+---
+
+*Q5. What is the difference between Docker Image and Container?*
+
+* *Image*: Blueprint for creating containers (static).
+* *Container*: Running instance of an image (dynamic).
+
+---
+
+## 2. *Docker Architecture*
+
+*Q6. Explain Docker architecture.*
+
+* *Docker Client*: CLI (docker run, docker build, etc.).
+* *Docker Daemon (dockerd)*: Runs on host, manages containers/images.
+* *Docker Registry*: Stores images (Docker Hub/private registry).
+* *Docker Objects*: Images, Containers, Volumes, Networks.
+
+---
+
+*Q7. What is Docker Hub?*
+
+* A cloud-based public registry for Docker images.
+* You can push/pull images (docker pull nginx).
+
+---
+
+*Q8. What are Docker Namespaces?*
+
+* Provide isolation for processes inside containers.
+* Types: PID, NET, IPC, MNT, UTS.
+
+---
+
+*Q9. What is a Docker CGroup?*
+
+* Control Groups limit resources (CPU, memory, disk I/O) for containers.
+
+---
+
+## 3. *Docker Commands*
+
+*Q10. Common Docker commands?*
+
+* docker run – Run a container
+* docker ps – List running containers
+* docker stop <id> – Stop container
+* docker exec -it <id> /bin/bash – Access container
+* docker logs <id> – View logs
+* docker build -t myapp . – Build image
+* docker push/pull – Push/pull image
+
+---
+
+*Q11. How do you check container resource usage?*
+
+* docker stats – Show CPU, memory, I/O usage.
+
+---
+
+*Q12. How do you remove all stopped containers?*
+
+bash
+docker container prune
+
+
+---
+
+## 4. *Networking in Docker*
+
+*Q13. What are Docker network types?*
+
+* *Bridge*: Default, containers communicate via bridge network.
+* *Host*: Shares host network stack.
+* *None*: No networking.
+* *Overlay*: Used in Docker Swarm/Kubernetes, connects multiple hosts.
+* *Macvlan*: Assigns MAC address to container.
+
+---
+
+*Q14. How to expose a container port to host?*
+
+bash
+docker run -p 8080:80 nginx
+
+
+---
+
+*Q15. Difference between EXPOSE and -p?*
+
+* EXPOSE: Documentation inside Dockerfile (doesn’t actually publish).
+* -p: Publishes port to host.
+
+---
+
+## 5. *Volumes and Storage*
+
+*Q16. What is a Docker Volume?*
+
+* Volumes are used for persistent storage of data outside container lifecycle.
+* Example:
+
+bash
+docker run -v myvolume:/data mysql
+
+
+---
+
+*Q17. Difference between Bind Mounts and Volumes?*
+
+* *Bind Mounts*: Link host path → container path.
+* *Volumes*: Managed by Docker, stored under /var/lib/docker/volumes.
+
+---
+
+## 6. *Dockerfile*
+
+*Q18. What is a Dockerfile?*
+
+* A text file with instructions to build an image.
+
+*Example:*
+
+dockerfile
+FROM ubuntu:20.04
+RUN apt-get update && apt-get install -y nginx
+COPY index.html /var/www/html/
+CMD ["nginx", "-g", "daemon off;"]
+
+
+---
+
+*Q19. Common Dockerfile instructions?*
+
+* FROM → Base image
+* RUN → Execute commands
+* COPY / ADD → Copy files
+* EXPOSE → Define ports
+* ENV → Set environment variables
+* CMD → Default command
+* ENTRYPOINT → Fixed command
+
+---
+
+*Q20. Difference between CMD and ENTRYPOINT?*
+
+* *CMD*: Provides default arguments, can be overridden.
+* *ENTRYPOINT*: Always executed, arguments appended.
+
+Example:
+
+dockerfile
+ENTRYPOINT ["ping"]
+CMD ["google.com"]
+
+
+→ Container runs ping google.com
+
+---
+
+## 7. *Advanced Concepts*
+
+*Q21. What is Multi-stage Docker build?*
+
+* Allows using multiple FROM statements to reduce image size.
+
+dockerfile
+FROM golang:1.20 as builder
+WORKDIR /app
+COPY . .
+RUN go build -o myapp
+
+FROM alpine:latest
+COPY --from=builder /app/myapp /usr/local/bin/myapp
+CMD ["myapp"]
+
+
+---
+
+*Q22. How to reduce Docker image size?*
+
+* Use lightweight base images (e.g., alpine).
+* Combine RUN commands (&&).
+* Use .dockerignore.
+* Multi-stage builds.
+
+---
+
+*Q23. What is Docker Compose?*
+
+* A tool to define and run multi-container apps using docker-compose.yml.
+
+Example:
+
+yaml
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+
+
+Run → docker-compose up
+
+---
+
+*Q24. What is Docker Swarm?*
+
+* Docker’s native container orchestration tool (less popular vs Kubernetes).
+* Supports clustering, scaling, load balancing.
+
+---
+
+*Q25. How do you secure Docker?*
+
+* Run containers as non-root.
+* Use trusted images.
+* Limit resources via cgroups.
+* Enable Docker Content Trust.
+* Scan images (docker scan).

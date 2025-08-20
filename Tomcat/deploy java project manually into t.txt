@@ -1,0 +1,12 @@
+deploy java project manually into tomcat?
+
+
+prerequites 
+
+1 > git bash 
+2 > GitHub url 
+3 > clone into ur local or copy project into our local 
+4 > install java and maven for building the project
+5 > tomcat server with cerdintinal
+6 > deploy to tomcat (copy war/jar/ear file into webapps folder)
+7 > acces ur application by using tomcat url

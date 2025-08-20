@@ -1,0 +1,234 @@
+Here’s a comprehensive list of Maven interview questions and answers, categorized from basic to advanced, to help you prepare effectively:
+
+⸻
+
+Basic Maven Interview Questions
+
+1. What is Maven?
+
+Answer:
+Maven is a build automation and project management tool primarily used for Java projects. It manages project builds, dependencies, documentation, and reporting using a declarative XML file called pom.xml.
+
+⸻
+
+2. What are the advantages of using Maven?
+
+Answer:
+	•	Simplifies build management.
+	•	Manages dependencies automatically.
+	•	Provides standard project structure.
+	•	Integrates with CI/CD tools easily.
+	•	Offers plugins and goals for extended functionality.
+
+⸻
+
+3. What is a POM file in Maven?
+
+Answer:
+POM (Project Object Model) is an XML file (pom.xml) that contains project configuration details:
+	•	Project information (name, version, description).
+	•	Dependencies.
+	•	Build configuration.
+	•	Plugins and goals.
+
+⸻
+
+4. What is a Maven Repository?
+
+Answer:
+A Maven repository is a storage location for project artifacts and dependencies.
+Types:
+	•	Local Repository: Stored on the developer’s machine (~/.m2/repository).
+	•	Central Repository: Hosted by Maven community.
+	•	Remote Repository: Custom/private repositories like Nexus or Artifactory.
+
+⸻
+
+5. What is a Maven dependency?
+
+Answer:
+A dependency is an external library required by your project. Maven downloads these dependencies from repositories and stores them locally.
+
+Example in pom.xml:
+
+<dependency>
+  <groupId>junit</groupId>
+  <artifactId>junit</artifactId>
+  <version>4.13.2</version>
+  <scope>test</scope>
+</dependency>
+
+
+
+⸻
+
+Intermediate Maven Interview Questions
+
+6. What are Maven build life cycles?
+
+Answer:
+Maven has 3 built-in lifecycles:
+	1.	Default Lifecycle: Handles project deployment (e.g., compile, test, package).
+	2.	Clean Lifecycle: Cleans the project (mvn clean).
+	3.	Site Lifecycle: Generates project documentation.
+
+⸻
+
+7. What are Maven goals?
+
+Answer:
+A goal is a task performed by Maven (e.g., compiling code, packaging a jar).
+	•	Example: mvn clean runs the clean goal from the clean lifecycle.
+
+⸻
+
+8. What are dependency scopes in Maven?
+
+Answer:
+	•	compile (default): Available in all classpaths.
+	•	provided: Required for compilation, not packaged (e.g., servlet-api in web apps).
+	•	runtime: Needed during runtime (e.g., JDBC drivers).
+	•	test: Used only during testing.
+	•	system: Similar to provided, but explicitly points to a JAR on disk.
+	•	import: Used for dependency management.
+
+⸻
+
+9. What is Maven’s dependency:tree command?
+
+Answer:
+It displays the dependency hierarchy of the project:
+
+mvn dependency:tree
+
+Useful for resolving conflicts in transitive dependencies.
+
+⸻
+
+10. What are transitive dependencies in Maven?
+
+Answer:
+Dependencies of your dependencies.
+Example: If your project depends on Library A, and Library A depends on Library B, Maven includes Library B automatically.
+
+⸻
+
+11. How do you exclude a transitive dependency?
+
+Answer:
+
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-core</artifactId>
+  <version>5.3.30</version>
+  <exclusions>
+    <exclusion>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+
+
+
+⸻
+
+12. What is the difference between install and deploy in Maven?
+
+Answer:
+	•	install: Installs the built artifact into the local repository.
+	•	deploy: Copies the artifact to a remote repository (e.g., Nexus/Artifactory).
+
+⸻
+
+Advanced Maven Interview Questions
+
+13. How do you manage multi-module projects in Maven?
+
+Answer:
+	•	Create a parent POM and define submodules:
+
+<modules>
+  <module>module1</module>
+  <module>module2</module>
+</modules>
+
+Each module will have its own pom.xml and inherit settings from the parent.
+
+⸻
+
+14. What is the difference between build and site in Maven?
+
+Answer:
+	•	Build: Compiles, tests, and packages code.
+	•	Site: Generates project reports, documentation, and metrics.
+
+⸻
+
+15. What is the purpose of the dependencyManagement tag?
+
+Answer:
+It defines dependency versions in a parent POM, so child modules can use them without specifying versions.
+
+⸻
+
+16. What is the difference between Maven and Gradle?
+
+Answer:
+	•	Maven uses XML (pom.xml), Gradle uses Groovy/Kotlin DSL.
+	•	Gradle is faster with incremental builds.
+	•	Maven is more rigid but has better conventions.
+
+⸻
+
+17. What is the settings.xml file in Maven?
+
+Answer:
+Located in ~/.m2/, it defines:
+	•	Repository locations.
+	•	Credentials for remote repositories.
+	•	Profiles for different build environments.
+
+⸻
+
+18. How do you run Maven in offline mode?
+
+Answer:
+
+mvn -o package
+
+This uses only the local repository and doesn’t try to fetch dependencies online.
+
+⸻
+
+19. What is the difference between snapshot and release versions in Maven?
+
+Answer:
+	•	Snapshot: Under development (e.g., 1.0-SNAPSHOT), Maven checks for updates.
+	•	Release: Stable and immutable (e.g., 1.0).
+
+⸻
+
+20. How do you integrate Maven with Jenkins?
+
+maven install and Theory
+Answer:
+	•	Install Maven plugin in Jenkins.
+	•	Configure Maven installation in Jenkins global settings.
+	•	Create a pipeline/job and use:
+
+mvn clean install
+
+
+
+⸻
+
+Practical Maven Commands:
+	•	mvn clean: Remove target folder.
+	•	mvn compile: Compile source code.
+	•	mvn test: Run unit tests.
+	•	mvn package: Package into JAR/WAR.
+	•	mvn install: Install in local repo.
+	•	mvn deploy: Push to remote repo.
+
+⸻
